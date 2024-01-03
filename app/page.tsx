@@ -17,6 +17,9 @@ const Tldraw = dynamic(async () => (await import("@tldraw/tldraw")).Tldraw, {
 export default function Home() {
   const [html, setHtml] = useState<null | string>(null);
   const [formData, setFormData] = useState<boolean>(false);
+  const [option1, setOption1] = React.useState<string>('');
+  const [option2, setOption2] = React.useState<string>('');
+  const [option3, setOption3] = React.useState<string>('');
 
   useEffect(() => {
     const listener = (e: KeyboardEvent) => {
@@ -33,12 +36,15 @@ export default function Home() {
 
   const handleFormResponse = (e: any) => {
     e.preventDefault();
-    if (e.target.framework.value) {
+    if (e.target.framework.value && e.target.style.value && e.target.script.value ) {
       setFormData(true);
+      setOption1(e.target.framework.value);
+      setOption2(e.target.style.value);
+      setOption3(e.target.script.value);
     }
-    console.log(e.target.framework.value);
-    console.log(e.target.style.value);
-    console.log(e.target.script.value);
+    // console.log(e.target.framework.value);
+    // console.log(e.target.style.value);
+    // console.log(e.target.script.value);
   }
   return (
     <>
@@ -47,7 +53,7 @@ export default function Home() {
         <>
           <div className={`w-screen h-screen`}>
             <Tldraw persistenceKey="tldraw">
-              <ExportButton setHtml={setHtml} />
+              <ExportButton setHtml={setHtml} frameworkName={option1} styleName={option2} scriptName={option3} />
             </Tldraw>
           </div>
           {html &&
@@ -68,7 +74,8 @@ export default function Home() {
   );
 }
 
-function ExportButton({ setHtml }: { setHtml: (html: string) => void }) {
+function ExportButton({ setHtml,frameworkName,styleName,scriptName  }: { setHtml: (html: string) => void,frameworkName:string,styleName:string,scriptName:string }) {
+ console.log('frameworkframeworkframework',frameworkName,styleName,scriptName);
   const editor = useEditor();
   const [loading, setLoading] = useState(false);
   // A tailwind styled button that is pinned to the bottom right of the screen
@@ -95,7 +102,7 @@ function ExportButton({ setHtml }: { setHtml: (html: string) => void }) {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ image: dataUrl }),
+            body: JSON.stringify({ image: dataUrl,frameworkName:frameworkName,styleName:styleName,scriptName:scriptName }),
           });
 
           const json = await resp.json();
