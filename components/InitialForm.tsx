@@ -12,7 +12,7 @@ const InitialForm = ({ onFormSubmit }: any) => {
             <form onSubmit={onFormSubmit} className="max-w-md mx-auto p-6 bg-gray-100 rounded-md shadow-md">
                 <div className="mb-4">
                     <label htmlFor="option1" className="block text-gray-700 text-sm font-bold mb-2">
-                        Select Framework
+                        Select JS Framework
                     </label>
                     <select
                         id="option1"
@@ -32,7 +32,7 @@ const InitialForm = ({ onFormSubmit }: any) => {
 
                 <div className="mb-4">
                     <label htmlFor="option2" className="block text-gray-700 text-sm font-bold mb-2">
-                        Select Styles
+                        Select CSS Framework
                     </label>
                     <select
                         id="option2"
@@ -42,9 +42,9 @@ const InitialForm = ({ onFormSubmit }: any) => {
                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
                     >
                         <option value="">Select One</option>
-                        <option value="css">CSS</option>
                         <option value="tailwind">Tailwind</option>
                         <option value="bootstrap">Bootstrap</option>
+                        <option value="styledcomponent">Styled Component</option>
                         {/* Add more options as needed */}
                     </select>
                 </div>
