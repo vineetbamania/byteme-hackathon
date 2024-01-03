@@ -4,7 +4,9 @@ const systemPrompt = `You are an expert bootstrap css developer. A user will pro
 if you need to insert an image, use placehold.co to create a placeholder image. Respond only with the html file.`;
 
 export async function POST(request: Request) {
-  const { image } = await request.json();
+  const { image,frameworkName,styleName,scriptName } = await request.json();
+  console.log('heloooo');
+  console.log('frameworkName',request.json(),frameworkName,styleName,scriptName);
   const body: GPT4VCompletionRequest = {
     model: "gpt-4-vision-preview",
     max_tokens: 4096,
