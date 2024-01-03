@@ -8,6 +8,7 @@ import { blobToBase64 } from "@/lib/blobToBase64";
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { PreviewModal } from "@/components/PreviewModal";
+import InitialForm from "@/components/InitialForm";
 
 const Tldraw = dynamic(async () => (await import("@tldraw/tldraw")).Tldraw, {
   ssr: false,
@@ -15,6 +16,7 @@ const Tldraw = dynamic(async () => (await import("@tldraw/tldraw")).Tldraw, {
 
 export default function Home() {
   const [html, setHtml] = useState<null | string>(null);
+  const [formData, setFormData] = useState<boolean>(false);
 
   useEffect(() => {
     const listener = (e: KeyboardEvent) => {
@@ -29,24 +31,39 @@ export default function Home() {
     };
   });
 
+  const handleFormResponse = (e: any) => {
+    e.preventDefault();
+    if (e.target.framework.value) {
+      setFormData(true);
+    }
+    console.log(e.target.framework.value);
+    console.log(e.target.style.value);
+    console.log(e.target.script.value);
+  }
   return (
     <>
-      <div className={`w-screen h-screen`}>
-        <Tldraw persistenceKey="tldraw">
-          <ExportButton setHtml={setHtml} />
-        </Tldraw>
-      </div>
-      {html &&
-        ReactDOM.createPortal(
-          <div
-            className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center"
-            style={{ zIndex: 2000, backgroundColor: "rgba(0,0,0,0.5)" }}
-            onClick={() => setHtml(null)}
-          >
-            <PreviewModal html={html} setHtml={setHtml} />
-          </div>,
-          document.body
-        )}
+
+      {formData ?
+        <>
+          <div className={`w-screen h-screen`}>
+            <Tldraw persistenceKey="tldraw">
+              <ExportButton setHtml={setHtml} />
+            </Tldraw>
+          </div>
+          {html &&
+            ReactDOM.createPortal(
+              <div
+                className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center"
+                style={{ zIndex: 2000, backgroundColor: "rgba(0,0,0,0.5)" }}
+                onClick={() => setHtml(null)}
+              >
+                <PreviewModal html={html} setHtml={setHtml} />
+              </div>,
+              document.body
+            )}
+        </>
+        : <InitialForm onFormSubmit={handleFormResponse} />
+      }
     </>
   );
 }
@@ -106,7 +123,7 @@ function ExportButton({ setHtml }: { setHtml: (html: string) => void }) {
           <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
         </div>
       ) : (
-        "Make Real"
+        "Create Component"
       )}
     </button>
   );

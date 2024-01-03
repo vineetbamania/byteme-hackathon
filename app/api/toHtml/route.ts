@@ -32,7 +32,7 @@ export async function POST(request: Request) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer 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`,
+        Authorization: `Bearer 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`,
       },
       body: JSON.stringify(body),
     });
